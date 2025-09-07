@@ -246,7 +246,7 @@ export default function HomepageContent() {
       )}
 
       {/* Contact CTA */}
-      <div className="mt-16 lg:mt-20 text-center">
+      <div className="mt-16 lg:mt-8 text-center">
         <p className="mb-4 text-gray-600 dark:text-gray-300" data-macaly="contact-cta">
           Let's bring dreams to life.
         </p>
