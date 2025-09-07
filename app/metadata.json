@@ -1,0 +1,20 @@
+{
+  "/": {
+    "title": "Andres De Moya | UI/UX Product Designer",
+    "description": "UI/UX Product Designer specialized in B2B enterprise software. Passionate about turning complex problems into intuitive, scalable, and inclusive user experiences.",
+    "keywords": "UI/UX Designer, Product Designer, B2B Software, Design Systems, Accessibility, Mobile-first Design",
+    "ogImage": "/og-image.png"
+  },
+  "/about": {
+    "title": "About Andres De Moya | UI/UX Product Designer",
+    "description": "Learn about Andres De Moya, a UI/UX Product Designer from Barranquilla, Colombia, specialized in B2B enterprise software and design systems.",
+    "keywords": "About Andres De Moya, UI/UX Designer Colombia, Product Designer Barranquilla",
+    "ogImage": "/og-image-about.png"
+  },
+  "/blog": {
+    "title": "Blog | Andres De Moya",
+    "description": "Insights and thoughts on UI/UX design, product development, and design systems by Andres De Moya.",
+    "keywords": "Design Blog, UX Writing, Product Design Insights, Design Systems",
+    "ogImage": "/og-image-blog.png"
+  }
+}
