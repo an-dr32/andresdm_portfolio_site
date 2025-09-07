@@ -1,11 +1,25 @@
 "use client";
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { ArrowLeft, Calendar, Clock, Share2, Twitter, Linkedin, Copy, Check, Menu, X } from 'lucide-react'
+import { useState } from 'react';
+import Link from 'next/link';
+import { ArrowLeft, Calendar, Clock, Share2, Twitter, Linkedin, Copy, Check, Menu, X } from 'lucide-react';
+
+// Calculate dynamic dates
+const currentDate = new Date();
+const baseDate = new Date(currentDate);
+baseDate.setDate(baseDate.getDate() - 3); // First date is 3 days before the current date
+
+// Helper function to format dates consistently
+export const formatDate = (date: Date) => {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
 
 // Blog posts data with full content
-const blogPosts = [
+export const blogPosts = [
   {
     id: 1,
     slug: "building-accessible-design-systems",
@@ -72,10 +86,10 @@ Accessibility isn't a one-time checkbox—it's an ongoing commitment. I continue
 
 The best part? When you design for accessibility, you often create better experiences for everyone. Clear visual hierarchy, consistent interactions, and thoughtful information architecture benefit all users, not just those with specific accessibility needs.
     `,
-    date: "2024-12-15",
+    date: formatDate(baseDate), // First date
     readTime: "8 min read",
     category: "Design Systems",
-    featured: true
+    featured: true,
   },
   {
     id: 2,
@@ -183,9 +197,9 @@ Mobile-first design for enterprise software isn't just about supporting smartpho
 
 The future of enterprise UX is mobile-first, responsive, and contextually aware. The question isn't whether your users need mobile access—it's whether you're ready to meet them where they are.
     `,
-    date: "2024-11-28",
+    date: formatDate(new Date(baseDate.getTime() - 17 * 24 * 60 * 60 * 1000)), // 17 days before the first date
     readTime: "6 min read",
-    category: "Mobile Design"
+    category: "Mobile Design",
   },
   {
     id: 3,
@@ -306,9 +320,9 @@ The next time you're stuck on a design problem, try thinking like a hardware des
 
 Sometimes the best software solutions come from thinking outside the screen.
     `,
-    date: "2024-11-10",
+    date: formatDate(new Date(baseDate.getTime() - 35 * 24 * 60 * 60 * 1000)), // 35 days before the first date
     readTime: "5 min read",
-    category: "Career"
+    category: "Career",
   },
   {
     id: 4,
@@ -515,9 +529,9 @@ Most importantly, this project demonstrated that good UX design isn't a luxury f
 
 The principles and processes we developed at Hensall CoOp continue to guide my approach to enterprise UX design, proving that lean methodology can work at any scale, in any industry, with any user base.
     `,
-    date: "2024-10-22",
+    date: formatDate(new Date(baseDate.getTime() - 54 * 24 * 60 * 60 * 1000)), // 54 days before the first date
     readTime: "10 min read",
-    category: "Case Study"
+    category: "Case Study",
   },
   {
     id: 5,
@@ -733,11 +747,11 @@ The key is recognizing that every stakeholder brings valuable insights to the de
 
 When cross-functional design thinking works, it doesn't just create better products—it creates better organizations that are more user-centered, more collaborative, and more innovative.
     `,
-    date: "2024-10-05",
+    date: formatDate(new Date(baseDate.getTime() - 71 * 24 * 60 * 60 * 1000)), // 71 days before the first date
     readTime: "7 min read",
-    category: "Collaboration"
-  }
-]
+    category: "Collaboration",
+  },
+];
 
 interface BlogPostContentProps {
   slug: string
@@ -746,16 +760,16 @@ interface BlogPostContentProps {
 export default function BlogPostContent({ slug }: BlogPostContentProps) {
   const [linkCopied, setLinkCopied] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  
+
   const post = blogPosts.find(p => p.slug === slug)
-  
+
   if (!post) {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Post Not Found</h1>
           <p className="text-gray-600 dark:text-gray-400 mb-8">The blog post you're looking for doesn't exist.</p>
-          <Link 
+          <Link
             href="/blog"
             className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
           >
@@ -780,9 +794,9 @@ export default function BlogPostContent({ slug }: BlogPostContentProps) {
   const handleShare = (platform: string) => {
     const url = encodeURIComponent(window.location.href)
     const title = encodeURIComponent(post.title)
-    
+
     let shareUrl = ''
-    
+
     switch (platform) {
       case 'twitter':
         shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}`
@@ -791,7 +805,7 @@ export default function BlogPostContent({ slug }: BlogPostContentProps) {
         shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`
         break
     }
-    
+
     if (shareUrl) {
       window.open(shareUrl, '_blank', 'width=600,height=400')
     }
@@ -811,14 +825,14 @@ export default function BlogPostContent({ slug }: BlogPostContentProps) {
       <div className="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 sticky top-0 z-10 w-full">
         <div className="max-w-4xl mx-auto px-6 lg:px-12 py-4">
           <div className="flex items-center justify-between">
-            <Link 
+            <Link
               href="/blog"
               className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
             >
               <ArrowLeft size={16} />
               Back to Blog
             </Link>
-            
+
             <div className="flex items-center gap-2">
               <button
                 onClick={() => handleShare('twitter')}
@@ -855,18 +869,18 @@ export default function BlogPostContent({ slug }: BlogPostContentProps) {
               {post.category}
             </span>
           </div>
-          
+
           <h1 className="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
             {post.title}
           </h1>
-          
+
           <div className="flex items-center gap-6 text-sm text-gray-600 dark:text-gray-400">
             <div className="flex items-center gap-2">
               <Calendar size={16} />
-              <span>{new Date(post.date).toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
+              <span>{new Date(post.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
               })}</span>
             </div>
             <div className="flex items-center gap-2">
@@ -878,9 +892,9 @@ export default function BlogPostContent({ slug }: BlogPostContentProps) {
 
         {/* Article Content */}
         <div className="prose prose-lg max-w-none">
-          <div 
+          <div
             className="text-gray-800 dark:text-gray-200 leading-relaxed"
-            dangerouslySetInnerHTML={{ 
+            dangerouslySetInnerHTML={{
               __html: post.content
                 .split('\n')
                 .map(line => {
@@ -911,7 +925,7 @@ export default function BlogPostContent({ slug }: BlogPostContentProps) {
             <div className="text-sm text-gray-600 dark:text-gray-400">
               Written by <strong className="text-gray-900 dark:text-white">Andres De Moya</strong>
             </div>
-            
+
             <div className="flex items-center gap-4">
               <span className="text-sm text-gray-600 dark:text-gray-400">Share this article:</span>
               <div className="flex items-center gap-2">
@@ -964,9 +978,9 @@ export default function BlogPostContent({ slug }: BlogPostContentProps) {
                   {relatedPost.excerpt}
                 </p>
                 <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-500">
-                  <span>{new Date(relatedPost.date).toLocaleDateString('en-US', { 
-                    month: 'short', 
-                    day: 'numeric' 
+                  <span>{new Date(relatedPost.date).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric'
                   })}</span>
                   <span>•</span>
                   <span>{relatedPost.readTime}</span>

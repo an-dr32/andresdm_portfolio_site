@@ -1,60 +1,75 @@
 "use client";
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import Sidebar from '@/components/sidebar'
-import { Calendar, Clock, ArrowRight, Search, Filter, SortAsc, SortDesc, Check } from 'lucide-react'
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Sidebar from '@/components/sidebar';
+import { Calendar, Clock, ArrowRight, Search, Filter, SortAsc, SortDesc, Check } from 'lucide-react';
 
+// Calculate dynamic dates
+const currentDate = new Date();
+const baseDate = new Date(currentDate);
+baseDate.setDate(baseDate.getDate() - 3); // First date is 3 days before the current date
+
+// Helper function to format dates consistently
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
+// Blog posts data with dynamic dates
 const blogPosts = [
   {
     id: 1,
     slug: "building-accessible-design-systems",
     title: "Building Accessible Design Systems for B2B Software",
     excerpt: "How I approach creating inclusive design systems that work for enterprise users with diverse needs and technical backgrounds.",
-    date: "2024-12-15",
+    date: formatDate(baseDate), // First date
     readTime: "8 min read",
     category: "Design Systems",
-    featured: true
+    featured: true,
   },
   {
     id: 2,
     slug: "mobile-first-enterprise-ux",
     title: "The Impact of Mobile-First Design in Enterprise UX",
     excerpt: "Lessons learned from redesigning complex ERP interfaces with a mobile-first approach and the surprising results.",
-    date: "2024-11-28",
+    date: formatDate(new Date(baseDate.getTime() - 17 * 24 * 60 * 60 * 1000)), // 17 days before the first date
     readTime: "6 min read",
-    category: "Mobile Design"
+    category: "Mobile Design",
   },
   {
     id: 3,
     slug: "flipper-zero-to-ux",
     title: "From Flipper Zero to UX: Bridging Hardware and Software Design",
     excerpt: "My journey from speaking about hardware hacking to applying those problem-solving skills in digital product design.",
-    date: "2024-11-10",
+    date: formatDate(new Date(baseDate.getTime() - 35 * 24 * 60 * 60 * 1000)), // 35 days before the first date
     readTime: "5 min read",
-    category: "Career"
+    category: "Career",
   },
   {
     id: 4,
     slug: "lean-ux-case-study",
     title: "Lean UX in Practice: Reducing User Errors by 80%",
     excerpt: "A case study on how lean UX methodologies helped transform a complex agricultural ERP system.",
-    date: "2024-10-22",
+    date: formatDate(new Date(baseDate.getTime() - 54 * 24 * 60 * 60 * 1000)), // 54 days before the first date
     readTime: "10 min read",
-    category: "Case Study"
+    category: "Case Study",
   },
   {
     id: 5,
     slug: "design-thinking-cross-functional-teams",
     title: "Design Thinking for Cross-Functional Teams",
     excerpt: "Strategies for collaborating effectively with CEOs, CFOs, and technical teams on complex product decisions.",
-    date: "2024-10-05",
+    date: formatDate(new Date(baseDate.getTime() - 71 * 24 * 60 * 60 * 1000)), // 71 days before the first date
     readTime: "7 min read",
-    category: "Collaboration"
-  }
-]
+    category: "Collaboration",
+  },
+];
 
-const categories = ["All", "Design Systems", "Mobile Design", "Career", "Case Study", "Collaboration"]
+const categories = ["All", "Design Systems", "Mobile Design", "Career", "Case Study", "Collaboration"];
 
 export default function BlogPageContent() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -68,8 +83,8 @@ export default function BlogPageContent() {
   useEffect(() => {
     let filtered = blogPosts.filter(post => {
       const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           post.category.toLowerCase().includes(searchTerm.toLowerCase())
+        post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.category.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesCategory = selectedCategory === "All" || post.category === selectedCategory
       return matchesSearch && matchesCategory
     })
@@ -102,7 +117,7 @@ export default function BlogPageContent() {
   return (
     <div className="flex min-h-screen bg-white dark:bg-gray-900">
       <Sidebar />
-      
+
       <div className="lg:ml-64 p-6 lg:p-12 max-w-6xl w-full">
         {/* Header */}
         <div className="mb-8 lg:mb-12">
@@ -157,7 +172,7 @@ export default function BlogPageContent() {
 
           {/* Results Count */}
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            {filteredPosts.length === blogPosts.length 
+            {filteredPosts.length === blogPosts.length
               ? `Showing all ${filteredPosts.length} articles`
               : `Found ${filteredPosts.length} of ${blogPosts.length} articles`
             }
@@ -190,7 +205,7 @@ export default function BlogPageContent() {
                     <span data-macaly="featured-read-time">{featuredPost.readTime}</span>
                   </div>
                 </div>
-                <Link 
+                <Link
                   href={`/blog/${featuredPost.slug}`}
                   className="flex items-center gap-2 px-4 py-2 bg-white text-gray-900 rounded-lg hover:bg-gray-100 transition-colors w-fit"
                 >
@@ -214,15 +229,15 @@ export default function BlogPageContent() {
                         {post.category}
                       </span>
                     </div>
-                    
+
                     <h3 className="text-lg lg:text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors line-clamp-2" data-macaly={`post-${post.id}-title`}>
                       {post.title}
                     </h3>
-                    
+
                     <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed text-sm lg:text-base flex-grow line-clamp-3" data-macaly={`post-${post.id}-excerpt`}>
                       {post.excerpt}
                     </p>
-                    
+
                     <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-500 mt-auto">
                       <div className="flex items-center gap-3 lg:gap-4">
                         <div className="flex items-center gap-1">
@@ -236,7 +251,7 @@ export default function BlogPageContent() {
                           <span data-macaly={`post-${post.id}-read-time`}>{post.readTime}</span>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center gap-1 text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-400 transition-colors">
                         <span>Read</span>
                         <ArrowRight size={14} />
@@ -286,7 +301,7 @@ export default function BlogPageContent() {
               className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
               data-macaly="newsletter-input"
             />
-            <button 
+            <button
               type="submit"
               className="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors whitespace-nowrap flex items-center justify-center gap-2"
               disabled={subscribed}

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, User, Mail, Github, Instagram, FileText, Menu, X, Check, Copy, Sun, Moon } from 'lucide-react'
+import { Home, User, Mail, Github, Instagram, FileText, Menu, X, Check, Copy, Sun, Moon, Gamepad2 } from 'lucide-react'
 import { VerticalMenu } from '@/components/ui/vertical-menu'
 import { useState, useEffect } from 'react'
 
@@ -16,6 +16,7 @@ const BehanceIcon = ({ size = 18 }: { size?: number }) => (
 const navigation = [
   { name: 'Home', href: '/', icon: Home },
   { name: 'About', href: '/about', icon: User },
+  { name: 'Games', href: '/games', icon: Gamepad2 }, // <-- Added Games link
   { name: 'Email', href: '#', icon: Mail, action: 'copy-email' },
   { name: 'Github', href: 'https://github.com/an-dr32', icon: Github, external: true },
   { name: 'Behance', href: 'https://www.behance.net/ademoya', icon: BehanceIcon, external: true },
@@ -161,8 +162,8 @@ export default function Sidebar() {
                   <Link
                     href={item.href}
                     className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive
-                        ? 'text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-800'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800'
+                      ? 'text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-800'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800'
                       }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
