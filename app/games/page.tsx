@@ -106,7 +106,7 @@ export default function GamesPage() {
                                 Games
                             </h1>
                             <p className="text-lg lg:text-xl max-w-2xl leading-relaxed text-gray-600 dark:text-gray-300">
-                                Explore a collection of fun and engaging games designed to
+                                Explore a collection of fun and engaging games I designed and developed to
                                 entertain and challenge you.
                             </p>
                         </div>
@@ -133,10 +133,10 @@ export default function GamesPage() {
                                                 src={game.images[0]}
                                                 alt={game.name}
                                                 className={`${game.id === 1
-                                                        ? 'w-full h-full object-contain p-4 bg-transparent'
-                                                        : game.id === 2
-                                                            ? 'w-full h-full object-contain p-4 bg-[#03000B]'
-                                                            : 'w-full h-full object-cover'
+                                                    ? 'w-full h-full object-contain p-4 bg-transparent'
+                                                    : game.id === 2
+                                                        ? 'w-full h-full object-contain p-4 bg-[#03000B]'
+                                                        : 'w-full h-full object-cover'
                                                     }`}
                                             />
                                             <div className={`absolute inset-0 ${game.id === 1 || game.id === 2 ? 'bg-black/30' : 'bg-black/40'} flex items-center justify-center`}>

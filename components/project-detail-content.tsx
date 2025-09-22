@@ -30,13 +30,21 @@ const projects = {
         category: "UI/UX Product Design",
         date: "Feb. 2022 – Jul. 2024",
         location: "San Francisco, CA (Remote)",
-        heroImage: "/images/projects/hensall-hero.jpg",
+        heroImage: "/imgs/hensall/hensallog.png",
         images: [
-            "/images/projects/hensall-1.jpg",
-            "/images/projects/hensall-2.jpg",
-            "/images/projects/hensall-3.jpg",
-            "/images/projects/hensall-4.jpg"
+            "/imgs/hensall/oldhensall_01.png",
+            "/imgs/hensall/oldhensall_02.png",
+            "/imgs/hensall/oldhensall_03.png",
+            "/imgs/hensall/hensall_001.png",
+            "/imgs/hensall/hensall_002.png",
+            "/imgs/hensall/hensall_003.png",
+            "/imgs/hensall/hensall_01.png",
+            "/imgs/hensall/hensall_02.png",
+            "/imgs/hensall/hensall_03.png",
+            "/imgs/hensall/Fertilizer Sales Order - Add - Custom Dry Blend.png"
         ],
+        behanceUrl: "https://www.behance.net/gallery/216299097/Hensall-CoOp-ERP-UIUX-Design",
+        mockupUrl: "https://erp-mockup-ochre.vercel.app/auth/login",
         idea: "Hensall CoOp needed a comprehensive ERP system that could streamline their agricultural operations across finance, logistics, and operations. The challenge was to design an interface that could handle complex workflows while remaining intuitive for users with varying technical backgrounds.",
         build: "I designed the ERP UI using Material Design principles and lean UX methodologies. The process involved extensive collaboration with the CEO, CFO, and CAO to map workflows across all departments. I created detailed user flows and wireframes before developing high-fidelity prototypes that were tested with end users.",
         shipped: "The final ERP system features a clean, intuitive interface that reduces cognitive load for users. Key improvements include streamlined data entry forms, clear navigation hierarchies, and contextual help systems. The design system ensures consistency across all modules while maintaining flexibility for future enhancements.",
@@ -149,10 +157,8 @@ export default function ProjectDetailContent({ slug }: { slug: string }) {
 
                 {/* Hero Image */}
                 <div className="mb-12">
-                    <div className="aspect-[16/9] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden">
-                        <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center">
-                            <span className="text-gray-500 dark:text-gray-400">Hero Image Placeholder</span>
-                        </div>
+                    <div className="aspect-[16/9] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
+                        <img src={project.heroImage} alt={`${project.title} hero`} className="w-full h-full object-contain" />
                     </div>
                 </div>
 
@@ -195,10 +201,8 @@ export default function ProjectDetailContent({ slug }: { slug: string }) {
                 {/* Image Carousel */}
                 <section className="mb-12">
                     <div className="relative">
-                        <div className="aspect-[16/9] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden">
-                            <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center">
-                                <span className="text-gray-500 dark:text-gray-400">Project Image {currentImageIndex + 1}</span>
-                            </div>
+                        <div className="aspect-[16/9] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
+                            <img src={project.images[currentImageIndex]} alt={`${project.title} screenshot ${currentImageIndex + 1}`} className="w-full h-full object-contain" />
                         </div>
 
                         {/* Navigation Buttons */}
@@ -234,6 +238,34 @@ export default function ProjectDetailContent({ slug }: { slug: string }) {
                         </div>
                     </div>
                 </section>
+
+                {/* External Links */}
+                {(('behanceUrl' in project) && project.behanceUrl) || (('mockupUrl' in project) && (project as any).mockupUrl) ? (
+                    <div className="mb-12 flex gap-3">
+                        {('behanceUrl' in project) && project.behanceUrl && (
+                            <a
+                                href={(project as any).behanceUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
+                            >
+                                View on Behance
+                                <ExternalLink size={16} />
+                            </a>
+                        )}
+                        {('mockupUrl' in project) && (project as any).mockupUrl && (
+                            <a
+                                href={(project as any).mockupUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-md transition-colors"
+                            >
+                                Open ERP Mockup
+                                <ExternalLink size={16} />
+                            </a>
+                        )}
+                    </div>
+                ) : null}
 
                 {/* The Outcome */}
                 <section className="mb-12">
