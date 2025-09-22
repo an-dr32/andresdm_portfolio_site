@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, User, Mail, Github, Instagram, FileText, Menu, X, Check, Copy, Sun, Moon, Gamepad2 } from 'lucide-react'
+import { Home, User, Mail, Github, Instagram, FileText, Menu, X, Check, Copy, Sun, Moon, Gamepad2, Palette } from 'lucide-react'
 import { VerticalMenu } from '@/components/ui/vertical-menu'
 import { useState, useEffect } from 'react'
 
@@ -16,7 +16,8 @@ const BehanceIcon = ({ size = 18 }: { size?: number }) => (
 const navigation = [
   { name: 'Home', href: '/', icon: Home },
   { name: 'About', href: '/about', icon: User },
-  { name: 'Games', href: '/games', icon: Gamepad2 }, // <-- Added Games link
+  { name: 'Games', href: '/games', icon: Gamepad2 },
+  { name: 'Illustrations', href: '/illustrations', icon: Palette },
   { name: 'Email', href: '#', icon: Mail, action: 'copy-email' },
   { name: 'Github', href: 'https://github.com/an-dr32', icon: Github, external: true },
   { name: 'Behance', href: 'https://www.behance.net/ademoya', icon: BehanceIcon, external: true },

@@ -12,12 +12,16 @@ const projects = {
         category: "UI/UX Product Design",
         date: "Jun. 2024 – Present",
         location: "Barranquilla, Colombia",
-        heroImage: "/images/projects/codigo-abierto-hero.jpg",
+        heroImage: "/imgs/caweb/TCEWeb.gif",
         images: [
-            "/images/projects/codigo-abierto-1.jpg",
-            "/images/projects/codigo-abierto-2.jpg",
-            "/images/projects/codigo-abierto-3.jpg",
-            "/images/projects/codigo-abierto-4.jpg"
+            "/imgs/caweb/TCEWeb.gif",
+            "/imgs/caweb/TCE1.png",
+            "/imgs/caweb/TCE2.png",
+            "/imgs/caweb/TCE.png",
+            "/imgs/caweb/web1.png",
+            "/imgs/caweb/web2.png",
+            "/imgs/caweb/web3.png"
+
         ],
         idea: "This project was born from the need to create a comprehensive digital platform that connects developers, designers, and tech enthusiasts in the Caribbean region. The goal was to build a community-driven platform that showcases local talent while providing resources and opportunities for growth in the tech ecosystem.",
         build: "The platform was designed with a mobile-first approach using modern design systems and lean UX methodologies. I led the end-to-end design process from initial wireframes to high-fidelity prototypes, ensuring accessibility standards (WCAG) were met throughout. The tech stack included React for the frontend with a robust design system built in Figma.",
@@ -86,6 +90,27 @@ const projects = {
         shipped: "The final deliverables included comprehensive UI kits with components, icons, and design specifications. Each project featured responsive designs that worked seamlessly across different screen sizes and devices. The design system ensured consistency while allowing for customization per client needs.",
         outcome: "Successfully delivered projects for multiple clients within tight deadlines, with positive feedback on both design quality and delivery speed. The mobile-first approach proved effective for client satisfaction and user engagement metrics.",
         thoughts: "This project taught me the importance of efficient design workflows and clear communication with clients. The experience of working on multiple projects simultaneously while maintaining quality standards has been invaluable for my career development."
+    },
+    'mobile-banking-app': {
+        title: "Mobile Banking App",
+        category: "Fintech",
+        date: "Jan. 2023 – Jun. 2023",
+        location: "Remote",
+        heroImage: "/imgs/bit/video.gif",
+        images: [
+            "/imgs/bit/video.gif",
+            "/imgs/bit/bit1.png",
+            "/imgs/bit/bit2.png",
+            "/imgs/bit/bit3.png",
+            "/imgs/bit/bit4.png",
+            "/imgs/bit/bit5.png",
+            "/imgs/bit/bit6.png"
+        ],
+        idea: "A mobile-first design for a cryptocurrency trading platform with a focus on accessibility and user-friendly interfaces. The challenge was to create an intuitive experience for both novice and experienced traders while maintaining security and compliance standards.",
+        build: "I designed the mobile banking app using modern fintech design principles and accessibility guidelines. The process involved extensive user research with both crypto beginners and experienced traders, creating wireframes and prototypes that were tested across different devices and accessibility tools.",
+        shipped: "The final app features a clean, intuitive interface with clear visual hierarchy, accessible color schemes, and comprehensive error handling. Key features include secure login, portfolio tracking, real-time trading, and educational content for new users.",
+        outcome: "The app successfully launched with high user adoption rates and positive feedback on accessibility features. User testing showed significant improvements in task completion rates and user satisfaction compared to competitor apps.",
+        thoughts: "This project highlighted the importance of accessibility in fintech applications. Designing for users with different abilities and technical backgrounds taught me valuable lessons about inclusive design that I apply to all my projects."
     }
 }
 

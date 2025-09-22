@@ -10,7 +10,7 @@ const projects = [
     title: "Codigo Abierto / GDG Barranquilla / TechCaribe",
     category: "UI/UX Product Design",
     description: "Community-driven platform connecting developers and designers in the Caribbean region",
-    image: "/api/placeholder/400/300",
+    image: "/imgs/caweb/TCE1.png",
     color: "bg-gradient-to-br from-green-600 to-green-800",
     slug: "codigo-abierto-gdg-barranquilla-techcaribe"
   },
@@ -19,7 +19,7 @@ const projects = [
     title: "Hensall CoOp ERP System",
     category: "UI/UX Product Design",
     description: "Comprehensive ERP system redesign reducing task completion time by 200%",
-    image: "/api/placeholder/400/300",
+    image: "/imgs/hensall/hensallog.png",
     color: "bg-gradient-to-br from-teal-600 to-cyan-700",
     slug: "hensall-coop-via-bairesdev"
   },
@@ -46,7 +46,7 @@ const projects = [
     title: "Mobile Banking App",
     category: "Fintech",
     description: "Mobile-first design for cryptocurrency trading platform with focus on accessibility",
-    image: "/api/placeholder/400/300",
+    image: "/imgs/bit/bit1.png",
     color: "bg-gradient-to-br from-blue-900 to-indigo-900",
     slug: "mobile-banking-app"
   },
@@ -193,24 +193,39 @@ export default function HomepageContent() {
               {/* Project Image/Card */}
               <div className={`${project.color} rounded-2xl h-48 lg:h-64 mb-4 flex items-center justify-center transition-transform duration-300 ${hoveredProject === project.id ? 'scale-105' : ''
                 }`}>
-                <div className="text-white dark:text-white text-center p-6">
-                  {project.isExternal ? (
-                    // Behance Portfolio Card
-                    <div className="w-12 h-12 bg-white/20 dark:bg-white/20 rounded-lg mx-auto mb-4 flex items-center justify-center">
-                      <div className="w-6 h-6 bg-white rounded flex items-center justify-center">
-                        <span className="text-xs font-bold text-gray-900">B</span>
+                {project.image && (project.slug === 'hensall-coop-via-bairesdev' || project.slug === 'codigo-abierto-gdg-barranquilla-techcaribe' || project.slug === 'mobile-banking-app') ? (
+                  <div className="relative w-full h-full rounded-2xl overflow-hidden">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        // Fallback: hide image to reveal gradient background
+                        (e.currentTarget as HTMLImageElement).style.display = 'none'
+                      }}
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <h3 className="text-lg font-semibold text-white">{project.title}</h3>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-white dark:text-white text-center p-6">
+                    {project.isExternal ? (
+                      <div className="w-12 h-12 bg-white/20 dark:bg-white/20 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                        <div className="w-6 h-6 bg-white rounded flex items-center justify-center">
+                          <span className="text-xs font-bold text-gray-900">B</span>
+                        </div>
                       </div>
-                    </div>
-                  ) : (
-                    // Regular Project Card
-                    <div className="w-12 h-12 bg-white/20 dark:bg-white/20 rounded-lg mx-auto mb-4 flex items-center justify-center">
-                      <div className="w-6 h-6 bg-white rounded"></div>
-                    </div>
-                  )}
-                  <h3 className="text-lg font-semibold" data-macaly={`project-${project.id}-title`}>
-                    {project.title}
-                  </h3>
-                </div>
+                    ) : (
+                      <div className="w-12 h-12 bg-white/20 dark:bg-white/20 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                        <div className="w-6 h-6 bg-white rounded"></div>
+                      </div>
+                    )}
+                    <h3 className="text-lg font-semibold" data-macaly={`project-${project.id}-title`}>
+                      {project.title}
+                    </h3>
+                  </div>
+                )}
               </div>
 
               {/* Project Info */}
