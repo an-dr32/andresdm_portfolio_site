@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Search, Command as CommandIcon, Moon, Sun, Download, Mail, ArrowRight } from "lucide-react";
+import { Search, Command as CommandIcon, Moon, Sun, Download, Mail, ArrowRight, X } from "lucide-react";
 
 type Cmd = {
   id: string;
@@ -28,9 +28,11 @@ export default function CommandPalette() {
     if (isDark) {
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
+      window.dispatchEvent(new Event('themechange'))
     } else {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
+      window.dispatchEvent(new Event('themechange'))
     }
   };
 
@@ -225,7 +227,7 @@ export default function CommandPalette() {
             role="dialog"
             aria-modal="true"
             aria-label="Command Menu"
-            className="w-full h-screen md:h-auto md:max-w-2xl rounded-2xl overflow-hidden shadow-2xl bg-white/20 dark:bg-gray-900/20 backdrop-blur-xl border border-white/30 dark:border-white/10 animate-in fade-in zoom-in duration-150"
+            className="w-full max-w-full md:max-w-2xl h-auto max-h-[80vh] md:max-h-[70vh] rounded-2xl overflow-hidden shadow-2xl bg-white/20 dark:bg-gray-900/20 backdrop-blur-xl border border-white/30 dark:border-white/10 animate-in fade-in zoom-in duration-150"
           >
             {/* Header / Search */}
             <div className="flex items-center gap-3 p-3 md:p-4 border-b border-white/30 dark:border-white/10 bg-white/30 dark:bg-gray-900/30 backdrop-blur-xl">
@@ -239,6 +241,15 @@ export default function CommandPalette() {
                 className="w-full bg-transparent outline-none placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100"
                 aria-label="Search commands"
               />
+              {/* Close button */}
+              <button
+                type="button"
+                aria-label="Close"
+                onClick={() => setOpen(false)}
+                className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-black/40 text-white hover:bg-black/50 focus:outline-none focus:ring-2 focus:ring-white dark:bg-white/20 dark:hover:bg-white/30"
+              >
+                <X className="w-4 h-4" />
+              </button>
               <div className="hidden md:flex items-center gap-1 text-xs text-gray-600 dark:text-gray-300 px-2 py-1 rounded bg-white/40 dark:bg-gray-800/40">
                 <CommandIcon className="w-3 h-3" /> K
               </div>
@@ -257,7 +268,7 @@ export default function CommandPalette() {
             </div>
 
             {/* List */}
-            <div className="max-h-[calc(100vh-64px)] md:max-h-[60vh] overflow-auto p-2 md:p-3" role="listbox" aria-label={mode === 'projects' ? 'Projects' : 'Commands'}>
+            <div className="max-h-[60vh] md:max-h-[60vh] overflow-auto p-2 md:p-3" role="listbox" aria-label={mode === 'projects' ? 'Projects' : 'Commands'}>
               {(mode === 'projects' ? filteredProjects.length === 0 : filtered.length === 0) ? (
                 <div className="p-6 text-center text-gray-600 dark:text-gray-300">No {mode === 'projects' ? 'projects' : 'commands'} found</div>
               ) : (
