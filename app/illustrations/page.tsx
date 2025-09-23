@@ -59,7 +59,7 @@ export default function IllustrationsPage() {
                             { name: "Colonel A.F De Moya.png", path: "/imgs/illustrations/AI Portraits/Colonel A.F De Moya.png", category: "AI Portraits" },
                             { name: "Counter Strike.png", path: "/imgs/illustrations/AI Portraits/Counter Strike.png", category: "AI Portraits" },
                             { name: "Doctor Demo.png", path: "/imgs/illustrations/AI Portraits/Doctor Demo.png", category: "AI Portraits" },
-                            { name: "Don Andres Fernando De Las Moyas y Mugnos.png", path: "/imgs/illustrations/AI Portraits/Don Andres Fernando De Las Moyas y Mugnos.png", category: "AI Portraits" },
+                            { name: "Don Andres De Las Moyas.png", path: "/imgs/illustrations/AI Portraits/Don Andres De Las Moyas.png", category: "AI Portraits" },
                             { name: "General De Moya.png", path: "/imgs/illustrations/AI Portraits/General De Moya.png", category: "AI Portraits" },
                             { name: "General De Moya2.png", path: "/imgs/illustrations/AI Portraits/General De Moya2.png", category: "AI Portraits" },
                             { name: "Mezoamerican Dictator.png", path: "/imgs/illustrations/AI Portraits/Mezoamerican Dictator.png", category: "AI Portraits" },
