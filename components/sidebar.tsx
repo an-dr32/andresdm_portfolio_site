@@ -29,21 +29,22 @@ export default function Sidebar() {
   const pathname = usePathname()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [emailCopied, setEmailCopied] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(false)
-
-  // Dark mode effect
-  useEffect(() => {
-    // Check for saved theme preference or default to light mode
-    const savedTheme = localStorage.getItem('theme')
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-      setIsDarkMode(true)
-      document.documentElement.classList.add('dark')
-    } else {
-      setIsDarkMode(false)
-      document.documentElement.classList.remove('dark')
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    try {
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDarkPref = stored ? stored === 'dark' : prefersDark;
+      // Trust current document class first (set by inline script), fallback to preference
+      return document.documentElement.classList.contains('dark') || isDarkPref;
+    } catch {
+      return document.documentElement.classList.contains('dark');
     }
+  })
+
+  // Sync local state to current document theme on mount (class managed elsewhere)
+  useEffect(() => {
+    setIsDarkMode(document.documentElement.classList.contains('dark'))
   }, [])
 
   const toggleDarkMode = () => {
