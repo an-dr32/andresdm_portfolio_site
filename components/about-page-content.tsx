@@ -20,7 +20,7 @@ const experiences = [
   {
     company: "Codigo Abierto / GDG Barranquilla / TechCaribe",
     role: "UI/UX PRODUCT DESIGNER",
-    period: "Jun. 2024 – Sept. 2025",
+    period: "Jun. 2024 – Sept. 2024",
     location: "Barranquilla, Colombia",
     achievements: [
       "Boosted user conversion by 30% through a complete redesign of a responsive website.",
@@ -32,7 +32,7 @@ const experiences = [
     company: "Tech Caribe Expo Branding (Codigo Abierto)",
     slug: "tech-caribe-expo-branding",
     role: "BRAND + MARKETING DESIGN",
-    period: "Jun. 2024 – Sept. 2025",
+    period: "Jun. 2024 – Sept. 2024",
     location: "Barranquilla, Colombia",
     achievements: [
       "Developed the Tech Caribe Expo visual identity and comprehensive brand guidelines.",
