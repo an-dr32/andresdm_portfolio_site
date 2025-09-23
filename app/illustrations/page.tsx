@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from 'next/image';
 import Sidebar from "@/components/sidebar";
 import {
     Dialog,
@@ -187,6 +188,23 @@ export default function IllustrationsPage() {
         return () => window.removeEventListener('keydown', onKeyDown);
     }, [isModalOpen, selectedIllustration, categories]);
 
+    // Preload next/prev images once a selection is made (improves perceived speed on mobile)
+    useEffect(() => {
+        if (!selectedIllustration) return;
+        const list = categories.flatMap((c) => c.illustrations);
+        if (list.length === 0) return;
+        const idx = list.findIndex((i) => i.path === selectedIllustration.path);
+        const nextIdx = idx === -1 ? -1 : (idx + 1) % list.length;
+        const prevIdx = idx === -1 ? -1 : (idx - 1 + list.length) % list.length;
+        const pathsToPreload = [nextIdx, prevIdx]
+            .filter((i) => i !== -1)
+            .map((i) => list[i].path);
+        pathsToPreload.forEach((src) => {
+            const img = new window.Image();
+            img.src = src;
+        });
+    }, [selectedIllustration, categories]);
+
     return (
         <div className="flex min-h-screen bg-white dark:bg-gray-900">
             {/* Sidebar */}
@@ -268,15 +286,15 @@ export default function IllustrationsPage() {
                                     >
                                         {/* Illustration Card */}
                                         <div className="relative aspect-square bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden transition-transform duration-300 hover:scale-105">
-                                            <img
+                                            <Image
                                                 src={illustration.path}
                                                 alt={illustration.name}
-                                                className="w-full h-full object-cover"
-                                                onError={(e) => {
-                                                    // Fallback: show placeholder
-                                                    (e.currentTarget as HTMLImageElement).style.display = 'none';
-                                                    (e.currentTarget as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
-                                                }}
+                                                fill
+                                                className="object-cover"
+                                                sizes="(min-width: 1280px) 12.5vw, (min-width: 1024px) 20vw, (min-width: 768px) 25vw, 33vw"
+                                                placeholder="empty"
+                                                priority={false}
+                                                onError={() => {/* fallback handled by hidden div below */}}
                                             />
                                             <div className="hidden absolute inset-0 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
                                                 <div className="text-gray-500 dark:text-gray-400 text-center p-4">
@@ -349,13 +367,18 @@ export default function IllustrationsPage() {
                                     onTouchMove={handleTouchMove}
                                     onTouchEnd={handleTouchEnd}
                                 >
-                                    <img
-                                        src={selectedIllustration.path}
-                                        alt={selectedIllustration.name}
-                                        className="object-contain select-none"
-                                        style={{ maxWidth: '100%', maxHeight: '70dvh', transform: `translateX(${touchStartX !== null ? touchDeltaX * 0.1 : 0}px)` }}
-                                        draggable={false}
-                                    />
+                                    <div className="relative w-full" style={{ height: '70dvh' }}>
+                                        <Image
+                                            src={selectedIllustration.path}
+                                            alt={selectedIllustration.name}
+                                            fill
+                                            className="object-contain select-none"
+                                            sizes="100vw"
+                                            priority
+                                            draggable={false}
+                                            style={{ transform: `translateX(${touchStartX !== null ? touchDeltaX * 0.1 : 0}px)` }}
+                                        />
+                                    </div>
                                     {/* Left/Right navigation buttons */}
                                     <button
                                         type="button"

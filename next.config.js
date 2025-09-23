@@ -10,7 +10,14 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
-  images: { unoptimized: true },
+  images: {
+    // Enable Next Image Optimization and serve modern formats
+    formats: ['image/avif', 'image/webp'],
+    // Tune responsive breakpoints for mobile-first loading
+    deviceSizes: [360, 640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [64, 128, 256, 384],
+    minimumCacheTTL: 60,
+  },
   devIndicators: false,
   allowedDevOrigins: [
     "*.macaly.dev",
