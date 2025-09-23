@@ -28,7 +28,7 @@ export default function RootLayout({
         {/* Set initial theme class before hydration to avoid mismatched UI on first paint */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(() => { try { const stored = localStorage.getItem('theme'); const isDark = stored ? stored === 'dark' : false; const root = document.documentElement; if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); } } catch (e) {} })();`
+            __html: `(() => { try { const stored = localStorage.getItem('theme'); const isDark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches; const root = document.documentElement; if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); } } catch (e) {} })();`
           }}
         />
       </head>

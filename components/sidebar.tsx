@@ -47,6 +47,22 @@ export default function Sidebar() {
     setIsDarkMode(document.documentElement.classList.contains('dark'))
   }, [])
 
+  // Listen for theme changes triggered elsewhere (ThemeProvider or other components)
+  useEffect(() => {
+    const syncFromDocument = () => {
+      setIsDarkMode(document.documentElement.classList.contains('dark'))
+    }
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === 'theme') syncFromDocument()
+    }
+    window.addEventListener('themechange', syncFromDocument)
+    window.addEventListener('storage', onStorage)
+    return () => {
+      window.removeEventListener('themechange', syncFromDocument)
+      window.removeEventListener('storage', onStorage)
+    }
+  }, [])
+
   const toggleDarkMode = () => {
     const newDarkMode = !isDarkMode
     setIsDarkMode(newDarkMode)

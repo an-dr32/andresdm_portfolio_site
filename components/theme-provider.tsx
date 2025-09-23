@@ -10,10 +10,33 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // Initialize theme from localStorage or system preference
   useEffect(() => {
-    const storedTheme = localStorage.getItem('theme') as Theme | null;
-    // Default to light if no stored preference
-    setTheme(storedTheme ?? 'light');
+    // Prefer current document state (set by inline script in layout) for perfect sync on first paint
+    const isDocDark = document.documentElement.classList.contains('dark');
+    if (isDocDark) {
+      setTheme('dark');
+    } else {
+      const storedTheme = localStorage.getItem('theme') as Theme | null;
+      if (storedTheme) {
+        setTheme(storedTheme);
+      } else {
+        // Fallback to system preference if nothing stored (keeps behavior consistent with initial script)
+        const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setTheme(prefers ? 'dark' : 'light');
+      }
+    }
     setMounted(true);
+  }, []);
+
+  // Follow system theme changes only if user has not set a preference
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e: MediaQueryListEvent) => {
+      if (!localStorage.getItem('theme')) {
+        setTheme(e.matches ? 'dark' : 'light');
+      }
+    };
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
   // Apply theme changes
@@ -21,9 +44,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
+      window.dispatchEvent(new Event('themechange'));
     } else {
       document.documentElement.classList.remove('dark');
       localStorage.setItem('theme', 'light');
+      window.dispatchEvent(new Event('themechange'));
     }
   }, [theme]);
 
