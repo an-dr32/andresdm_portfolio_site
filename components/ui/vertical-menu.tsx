@@ -101,14 +101,8 @@ export function VerticalMenu({ items, onItemClick, isDarkMode, emailCopied }: Ve
       <button
         onClick={toggleMenu}
         className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 
-          ${isDarkMode 
-            ? (isOpen 
-                ? 'bg-white text-gray-900 hover:bg-gray-100 ring-1 ring-black/10' 
-                : 'bg-white text-gray-900 hover:bg-gray-100 ring-1 ring-black/10') 
-            : (isOpen 
-                ? 'bg-gray-800 text-white' 
-                : 'bg-gray-800 text-white hover:bg-gray-700')
-          }`}
+          bg-gray-800 text-white hover:bg-gray-700 
+          dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100 dark:ring-1 dark:ring-black/10`}
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
       >
         {isOpen ? <X size={24} /> : <MoreVertical size={24} />}
