@@ -54,9 +54,11 @@ export default function Sidebar() {
     if (newDarkMode) {
       document.documentElement.classList.add('dark')
       localStorage.setItem('theme', 'dark')
+      window.dispatchEvent(new Event('themechange'))
     } else {
       document.documentElement.classList.remove('dark')
       localStorage.setItem('theme', 'light')
+      window.dispatchEvent(new Event('themechange'))
     }
   }
 

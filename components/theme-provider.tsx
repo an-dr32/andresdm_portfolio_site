@@ -11,14 +11,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Initialize theme from localStorage or system preference
   useEffect(() => {
     const storedTheme = localStorage.getItem('theme') as Theme | null;
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (storedTheme) {
-      setTheme(storedTheme);
-    } else if (systemPrefersDark) {
-      setTheme('dark');
-    }
-    
+    // Default to light if no stored preference
+    setTheme(storedTheme ?? 'light');
     setMounted(true);
   }, []);
 
@@ -33,18 +27,24 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, [theme]);
 
-  // Listen for system theme changes when no preference is set
+  // Keep in sync if localStorage changes (other tabs) or our app dispatches a themechange event
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    const handleChange = (e: MediaQueryListEvent) => {
-      if (!localStorage.getItem('theme')) {
-        setTheme(e.matches ? 'dark' : 'light');
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === 'theme' && e.newValue) {
+        const next = e.newValue as Theme;
+        setTheme(next);
       }
     };
-    
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    const onThemeChange = () => {
+      const stored = (localStorage.getItem('theme') as Theme | null) ?? 'light';
+      setTheme(stored);
+    };
+    window.addEventListener('storage', onStorage);
+    window.addEventListener('themechange', onThemeChange as EventListener);
+    return () => {
+      window.removeEventListener('storage', onStorage);
+      window.removeEventListener('themechange', onThemeChange as EventListener);
+    };
   }, []);
 
   // Don't render the children until we know the theme to prevent flash
