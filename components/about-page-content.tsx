@@ -7,6 +7,17 @@ import { useState } from 'react'
 
 const experiences = [
   {
+    company: "Saint Helein Holdings",
+    role: "UI/UX PRODUCT DESIGNER",
+    period: "Jan. 2025 – Present",
+    location: "Remote",
+    achievements: [
+      "Leading end‑to‑end product design for Vachero, a farming ERP focused on finance, inventory, and livestock operations.",
+      "Established a modular design system to speed delivery and ensure consistency across complex data‑heavy workflows.",
+      "Collaborating with stakeholders to pilot key modules; early testing shows faster task completion and improved data accuracy."
+    ]
+  },
+  {
     company: "Codigo Abierto / GDG Barranquilla / TechCaribe",
     role: "UI/UX PRODUCT DESIGNER",
     period: "Jun. 2024 – Present",
@@ -15,6 +26,18 @@ const experiences = [
       "Boosted user conversion by 30% through a complete redesign of a responsive website.",
       "Led end‑to‑end UI/UX process: wireframes, user flows, and high‑fidelity prototypes.",
       "Designed the brand identity and digital experience for the TechCaribe Expo event."
+    ]
+  },
+  {
+    company: "Tech Caribe Expo Branding (Codigo Abierto)",
+    slug: "tech-caribe-expo-branding",
+    role: "BRAND + MARKETING DESIGN",
+    period: "2024 – 2025",
+    location: "Barranquilla, Colombia",
+    achievements: [
+      "Developed the Tech Caribe Expo visual identity and comprehensive brand guidelines.",
+      "Defined color, typography, iconography systems and event collateral for cross‑channel consistency.",
+      "Shipped social media and marketing assets powering the event’s second yearly iteration."
     ]
   },
   {
@@ -161,9 +184,9 @@ export default function AboutPageContent() {
           <h2 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-6">Experience</h2>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">Click on any experience to view detailed project information</p>
           <div className="space-y-6 lg:space-y-8">
-            {experiences.map((exp, index) => {
-              // Map experience to project slug
-              const projectSlug = exp.company.toLowerCase()
+            {experiences.map((exp: any, index) => {
+              // Map experience to project slug (use explicit slug if provided)
+              const projectSlug = exp.slug ? exp.slug : exp.company.toLowerCase()
                 .replace(/[^a-z0-9]/g, '-')
                 .replace(/-+/g, '-')
                 .replace(/^-|-$/g, '')

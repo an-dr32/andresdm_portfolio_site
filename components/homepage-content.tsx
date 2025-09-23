@@ -25,21 +25,21 @@ const projects = [
   },
   {
     id: 3,
-    title: "Flipminds.com Platform",
+    title: "Saint Helein Holdings — Vachero ERP",
     category: "UI/UX Product Design",
-    description: "Scalable design system for educational platform serving students across Dubai",
-    image: "/api/placeholder/400/300",
-    color: "bg-gradient-to-br from-purple-600 to-purple-800",
-    slug: "flipmindscom"
+    description: "Farming ERP for livestock, inventory, and finance — modular design system and field-ready UX",
+    image: "/imgs/vachero/vachero_007.png",
+    color: "bg-gradient-to-br from-emerald-700 to-lime-700",
+    slug: "saint-helein-holdings"
   },
   {
     id: 4,
-    title: "Click: The Agency",
-    category: "UI Design",
-    description: "Mobile-first UI interfaces for North American and local clients",
-    image: "/api/placeholder/400/300",
-    color: "bg-gradient-to-br from-orange-600 to-red-600",
-    slug: "click-the-agency"
+    title: "Tech Caribe Expo — Branding",
+    category: "Branding & Marketing",
+    description: "Logo, brand system, and marketing toolkit for the region's leading tech expo",
+    image: "/imgs/ca/thumb.png",
+    color: "bg-gradient-to-br from-indigo-700 to-fuchsia-700",
+    slug: "tech-caribe-expo-branding"
   },
   {
     id: 5,
@@ -193,7 +193,7 @@ export default function HomepageContent() {
               {/* Project Image/Card */}
               <div className={`${project.color} rounded-2xl h-48 lg:h-64 mb-4 flex items-center justify-center transition-transform duration-300 ${hoveredProject === project.id ? 'scale-105' : ''
                 }`}>
-                {project.image && (project.slug === 'hensall-coop-via-bairesdev' || project.slug === 'codigo-abierto-gdg-barranquilla-techcaribe' || project.slug === 'mobile-banking-app') ? (
+                {project.image && !project.isExternal ? (
                   <div className="relative w-full h-full rounded-2xl overflow-hidden">
                     <img
                       src={project.image}
@@ -204,8 +204,12 @@ export default function HomepageContent() {
                         (e.currentTarget as HTMLImageElement).style.display = 'none'
                       }}
                     />
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <h3 className="text-lg font-semibold text-white">{project.title}</h3>
+                    {/* Readability Overlay: slight tint + blur (removed on hover) */}
+                    <div className="absolute inset-0 pointer-events-none bg-black/25 backdrop-blur-sm transition-all duration-200 group-hover:bg-transparent group-hover:backdrop-blur-0" />
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none p-3">
+                      <h3 className="inline-block text-base lg:text-lg font-semibold text-white bg-black/40 dark:bg-black/40 px-3 py-1 rounded-md shadow-sm transition-all">
+                        {project.title}
+                      </h3>
                     </div>
                   </div>
                 ) : (
