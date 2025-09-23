@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Command, Check, Copy, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 const projects = [
   {
@@ -63,7 +64,35 @@ const projects = [
   }
 ]
 
+// Include all projects (even those hidden from the default home grid)
+const allProjects = [
+  // Curated home projects
+  ...projects.filter(p => !('isExternal' in p && p.isExternal)),
+  // Additional projects not in the default home grid
+  {
+    id: 1001,
+    title: "Flipminds.com Platform",
+    category: "UI/UX Product Design",
+    description: "Scalable design system for educational platform serving students across Dubai",
+    image: "/api/placeholder/400/300",
+    color: "bg-gradient-to-br from-purple-600 to-purple-800",
+    slug: "flipmindscom"
+  },
+  {
+    id: 1002,
+    title: "Click: The Agency",
+    category: "UI Design",
+    description: "Mobile-first UI interfaces for North American and local clients",
+    image: "/api/placeholder/400/300",
+    color: "bg-gradient-to-br from-orange-600 to-red-600",
+    slug: "click-the-agency"
+  }
+]
+
 export default function HomepageContent() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const activeFilter = (searchParams?.get('filter') || '').toLowerCase()
   const [hoveredProject, setHoveredProject] = useState<number | null>(null)
   const [showAllProjects, setShowAllProjects] = useState(false)
   const [displayedText, setDisplayedText] = useState("")
@@ -106,7 +135,24 @@ export default function HomepageContent() {
     }
   }
 
-  const visibleProjects = showAllProjects ? projects : projects.slice(0, 3)
+  const matchesFilter = (project: typeof projects[number]) => {
+    if (activeFilter === 'branding') {
+      return project.category.toLowerCase().includes('branding')
+    }
+    if (activeFilter === 'uiux' || activeFilter === 'ui/ux') {
+      // Treat UI/UX broadly: include UI/UX Product Design, UI Design, Fintech app design
+      const cat = project.category.toLowerCase()
+      return cat.includes('ui/ux') || cat.includes('ui design') || cat.includes('product design') || cat.includes('fintech')
+    }
+    return true
+  }
+
+  const filteredProjects = activeFilter ? allProjects.filter(matchesFilter) : projects
+  const visibleProjects = activeFilter ? filteredProjects : (showAllProjects ? projects : projects.slice(0, 3))
+
+  const clearFilter = () => {
+    router.push('/')
+  }
 
   return (
     <div className="min-h-screen lg:ml-64 p-6 lg:p-12 transition-colors duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-white overflow-x-hidden">
@@ -166,6 +212,23 @@ export default function HomepageContent() {
           and inclusive user experiences.
         </p>
       </div>
+
+      {/* Filter bar (if active) */}
+      {activeFilter && (
+        <div className="mb-4 flex items-center gap-2">
+          <span className="text-sm text-gray-600 dark:text-gray-300">Filtered by:</span>
+          <span className="inline-flex items-center gap-2 text-sm px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200">
+            {activeFilter === 'branding' ? 'Branding Projects' : 'UI/UX Projects'}
+            <button
+              onClick={clearFilter}
+              className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+              aria-label="Clear filter"
+            >
+              ✕
+            </button>
+          </span>
+        </div>
+      )}
 
       {/* Projects Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -253,7 +316,7 @@ export default function HomepageContent() {
       </div>
 
       {/* Show More/Less Button */}
-      {projects.length > 3 && (
+      {!activeFilter && projects.length > 3 && (
         <div className="text-center mt-8">
           <button
             onClick={() => setShowAllProjects(!showAllProjects)}

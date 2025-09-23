@@ -3,7 +3,7 @@
 import Sidebar from '@/components/sidebar'
 import { MapPin, Mail, ExternalLink, Calendar } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const experiences = [
   {
@@ -126,6 +126,19 @@ const skills = {
 }
 
 export default function AboutPageContent() {
+  // Smooth scroll to hash anchors (e.g., #skills) when arriving via /about#skills
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const hash = window.location.hash
+    if (hash) {
+      const el = document.querySelector(hash)
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }, 50)
+      }
+    }
+  }, [])
   return (
     <div className="flex min-h-screen bg-white dark:bg-gray-900 overflow-x-hidden">
       <Sidebar />
@@ -243,7 +256,7 @@ export default function AboutPageContent() {
         </section>
 
         {/* Skills */}
-        <section className="mb-8 lg:mb-12">
+        <section id="skills" className="mb-8 lg:mb-12">
           <h2 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-6">Skills</h2>
           <div className="space-y-6">
             {Object.entries(skills).map(([category, skillList]) => (
