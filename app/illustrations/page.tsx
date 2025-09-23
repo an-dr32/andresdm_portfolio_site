@@ -8,17 +8,10 @@ import {
     DialogDescription,
     DialogHeader,
     DialogTitle,
+    DialogClose,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Grid3X3, Grid2X2, Square } from "lucide-react";
+ 
+import { Grid3X3, Grid2X2, Square, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Illustration {
     name: string;
@@ -35,9 +28,10 @@ export default function IllustrationsPage() {
     const [categories, setCategories] = useState<IllustrationCategory[]>([]);
     const [selectedIllustration, setSelectedIllustration] = useState<Illustration | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [carouselApi, setCarouselApi] = useState<any>(null);
     const [hoveredIllustration, setHoveredIllustration] = useState<string | null>(null);
     const [gridSize, setGridSize] = useState<'small' | 'medium' | 'large'>('medium');
+    const [touchStartX, setTouchStartX] = useState<number | null>(null);
+    const [touchDeltaX, setTouchDeltaX] = useState<number>(0);
 
     // Load illustrations dynamically
     useEffect(() => {
@@ -125,13 +119,73 @@ export default function IllustrationsPage() {
     const handleIllustrationClick = (illustration: Illustration) => {
         setSelectedIllustration(illustration);
         setIsModalOpen(true);
-        // Reset carousel to first slide when modal opens
-        setTimeout(() => {
-            if (carouselApi) {
-                carouselApi.scrollTo(0);
-            }
-        }, 100);
     };
+
+    // Helpers to navigate across ALL images (all categories flattened)
+    const getFlatList = (): Illustration[] => {
+        return categories.flatMap((c) => c.illustrations);
+    };
+
+    const getCurrentIndex = () => {
+        const list = getFlatList();
+        if (!selectedIllustration) return -1;
+        return list.findIndex((i) => i.path === selectedIllustration.path);
+    };
+
+    const goNext = () => {
+        const list = getFlatList();
+        if (list.length === 0) return;
+        const idx = getCurrentIndex();
+        const next = idx === -1 ? 0 : (idx + 1) % list.length;
+        setSelectedIllustration(list[next]);
+    };
+
+    const goPrev = () => {
+        const list = getFlatList();
+        if (list.length === 0) return;
+        const idx = getCurrentIndex();
+        const prev = idx === -1 ? list.length - 1 : (idx - 1 + list.length) % list.length;
+        setSelectedIllustration(list[prev]);
+    };
+
+    // Touch/swipe handlers
+    const SWIPE_THRESHOLD = 50; // px
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setTouchStartX(e.touches[0].clientX);
+        setTouchDeltaX(0);
+    };
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (touchStartX == null) return;
+        const currentX = e.touches[0].clientX;
+        setTouchDeltaX(currentX - touchStartX);
+    };
+    const handleTouchEnd = () => {
+        if (Math.abs(touchDeltaX) > SWIPE_THRESHOLD) {
+            if (touchDeltaX < 0) {
+                goNext();
+            } else {
+                goPrev();
+            }
+        }
+        setTouchStartX(null);
+        setTouchDeltaX(0);
+    };
+
+    // Keyboard navigation when modal is open
+    useEffect(() => {
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (!isModalOpen) return;
+            if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                goNext();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                goPrev();
+            }
+        };
+        window.addEventListener('keydown', onKeyDown);
+        return () => window.removeEventListener('keydown', onKeyDown);
+    }, [isModalOpen, selectedIllustration, categories]);
 
     return (
         <div className="flex min-h-screen bg-white dark:bg-gray-900">
@@ -259,8 +313,24 @@ export default function IllustrationsPage() {
 
             {/* Illustration Modal */}
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-                <DialogContent className="w-auto max-w-[95vw] bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 p-0 overflow-hidden">
-                    <DialogHeader className="p-6 pb-0">
+                <DialogContent hideClose className="w-[100vw] max-w-[100vw] sm:w-auto sm:max-w-[95vw] lg:max-w-3xl xl:max-w-4xl bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 p-0 max-h-[100dvh] sm:max-h-[90vh] overflow-y-auto rounded-none sm:rounded-xl">
+
+                    {/* Sticky header for title/description with safe-area padding */}
+                    <DialogHeader
+                        className="sticky top-0 z-20 bg-white/80 dark:bg-gray-900/80 backdrop-blur supports-[backdrop-filter]:backdrop-blur p-4 pt-[calc(1rem+env(safe-area-inset-top))] pb-3 border-b border-gray-200 dark:border-gray-800"
+                    >
+                        <DialogClose asChild>
+                            <button
+                                aria-label="Close"
+                                className="absolute right-3 top-3 sm:right-4 sm:top-4 inline-flex h-9 w-9 items-center justify-center rounded-md bg-black/50 text-white hover:bg-black/60 focus:outline-none focus:ring-2 focus:ring-white dark:bg-white/20 dark:text-white dark:hover:bg-white/30"
+                                style={{
+                                    insetInlineEnd: 'max(0.75rem, env(safe-area-inset-right))',
+                                    insetBlockStart: 'max(0.75rem, env(safe-area-inset-top))',
+                                }}
+                            >
+                                <X size={18} />
+                            </button>
+                        </DialogClose>
                         <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
                             {selectedIllustration?.name.replace(/\.[^/.]+$/, "")}
                         </DialogTitle>
@@ -270,32 +340,43 @@ export default function IllustrationsPage() {
                     </DialogHeader>
 
                     {selectedIllustration && (
-                        <div className="p-6 pt-4 space-y-4">
+                        <div className="p-4 sm:p-6 pt-4 space-y-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
                             {/* Illustration Image */}
                             <div className="relative">
-                                <div className="bg-gray-100 dark:bg-gray-800 rounded-xl overflow-auto flex items-center justify-center p-4">
+                                <div
+                                    className="bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-0 sm:p-2"
+                                    onTouchStart={handleTouchStart}
+                                    onTouchMove={handleTouchMove}
+                                    onTouchEnd={handleTouchEnd}
+                                >
                                     <img
                                         src={selectedIllustration.path}
                                         alt={selectedIllustration.name}
-                                        className="object-contain"
-                                        style={{ maxWidth: '95vw', maxHeight: '75vh' }}
+                                        className="object-contain select-none"
+                                        style={{ maxWidth: '100%', maxHeight: '70dvh', transform: `translateX(${touchStartX !== null ? touchDeltaX * 0.1 : 0}px)` }}
+                                        draggable={false}
                                     />
+                                    {/* Left/Right navigation buttons */}
+                                    <button
+                                        type="button"
+                                        aria-label="Previous"
+                                        onClick={goPrev}
+                                        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 inline-flex items-center justify-center h-10 w-10 rounded-full bg-black/50 text-white hover:bg-black/60 focus:outline-none focus:ring-2 focus:ring-white dark:bg-white/20 dark:text-white dark:hover:bg-white/30"
+                                    >
+                                        <ChevronLeft className="h-5 w-5" />
+                                    </button>
+                                    <button
+                                        type="button"
+                                        aria-label="Next"
+                                        onClick={goNext}
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 inline-flex items-center justify-center h-10 w-10 rounded-full bg-black/50 text-white hover:bg-black/60 focus:outline-none focus:ring-2 focus:ring-white dark:bg-white/20 dark:text-white dark:hover:bg-white/30"
+                                    >
+                                        <ChevronRight className="h-5 w-5" />
+                                    </button>
                                 </div>
                             </div>
 
-                            {/* Illustration Info */}
-                            <Card>
-                                <CardContent className="p-4">
-                                    <div className="space-y-1">
-                                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                            {selectedIllustration.name.replace(/\.[^/.]+$/, "")}
-                                        </h3>
-                                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            Category: {selectedIllustration.category}
-                                        </p>
-                                    </div>
-                                </CardContent>
-                            </Card>
+                            {null}
                         </div>
                     )}
                 </DialogContent>
