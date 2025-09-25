@@ -177,7 +177,7 @@ export default function GamesPage() {
 
             {/* Game Modal */}
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-                <DialogContent className="max-w-2xl bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700">
+                <DialogContent className="max-w-2xl bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 max-h-[85dvh] overflow-y-auto sm:max-h-none sm:overflow-visible">
                     <DialogHeader>
                         <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
                             {selectedGame?.name}

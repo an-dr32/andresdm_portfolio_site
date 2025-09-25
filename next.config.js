@@ -24,6 +24,7 @@ const nextConfig = {
     "*.macaly.app",
     "*.macaly-app.com",
     "*.macaly-user-data.dev",
+    "192.168.1.88",
   ],
   // https://github.com/vercel/next.js/issues/79588#issuecomment-2972850452
   experimental: {
