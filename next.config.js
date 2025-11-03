@@ -1,5 +1,8 @@
+const path = require("path");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Force Next.js to treat this workspace as the root for file tracing
+  outputFileTracingRoot: path.join(__dirname),
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -12,7 +15,7 @@ const nextConfig = {
   },
   images: {
     // Enable Next Image Optimization and serve modern formats
-    formats: ['image/avif', 'image/webp'],
+    formats: ["image/avif", "image/webp"],
     // Tune responsive breakpoints for mobile-first loading
     deviceSizes: [360, 640, 750, 828, 1080, 1200, 1920],
     imageSizes: [64, 128, 256, 384],
@@ -31,6 +34,6 @@ const nextConfig = {
     preloadEntriesOnStart: false,
     webpackMemoryOptimizations: true,
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
