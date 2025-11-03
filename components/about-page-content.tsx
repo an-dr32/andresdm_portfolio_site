@@ -161,8 +161,8 @@ export default function AboutPageContent() {
             </div>
             <div className="flex items-center gap-2">
               <Mail size={16} />
-              <a href="mailto:andresfdemoya@gmail.com" className="hover:text-gray-900 dark:hover:text-white" data-macaly="email">
-                andresfdemoya@gmail.com
+              <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#110;&#100;&#114;&#101;&#115;&#102;&#100;&#101;&#109;&#111;&#121;&#97;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;" className="hover:text-gray-900 dark:hover:text-white" data-macaly="email">
+                let's talk!
               </a>
             </div>
             <div className="flex items-center gap-2">

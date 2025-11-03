@@ -86,7 +86,7 @@ export default function CommandPalette() {
       { id: "go-projects", title: "Go to Projects", keywords: ["projects", "work"], action: () => goto("/about") },
       { id: "go-contact", title: "Go to Contact", keywords: ["contact"], action: () => emailTo("andresfdemoya@gmail.com") },
       { id: "download-resume", title: "Download Resume", keywords: ["resume", "cv", "download"], action: () => downloadFile(encodeURI("/cv/ATS-Optimized- Andres-De-Moya_CV2025_v3.pdf")) },
-      { id: "email-me", title: "Email Me", keywords: ["email", "contact"], action: () => emailTo("andresfdemoya@gmail.com") },
+      { id: "email-me", title: "Email Me", keywords: ["email", "contact"], action: () => emailTo("&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#110;&#100;&#114;&#101;&#115;&#102;&#100;&#101;&#109;&#111;&#121;&#97;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;") },
       { id: "toggle-theme", title: "Toggle Dark Mode", keywords: ["dark", "light", "theme"], action: () => { toggleDarkMode(); setOpen(false); } },
       { id: "search-project", title: "Search Project", keywords: ["project", "search", "open"], action: () => { setMode('projects'); setQuery(''); setSelectedIdx(0); } },
       { id: "show-branding", title: "Show Branding Projects", keywords: ["branding"], action: () => goto("/?filter=branding") },

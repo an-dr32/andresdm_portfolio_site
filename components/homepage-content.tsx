@@ -127,7 +127,7 @@ export default function HomepageContent() {
 
   const handleEmailCopy = async () => {
     try {
-      await navigator.clipboard.writeText('andresfdemoya@gmail.com')
+      await navigator.clipboard.writeText('&#97;&#110;&#100;&#114;&#101;&#115;&#102;&#100;&#101;&#109;&#111;&#121;&#97;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;')
       setEmailCopied(true)
       setTimeout(() => setEmailCopied(false), 2000)
     } catch (err) {
@@ -345,7 +345,7 @@ export default function HomepageContent() {
           ) : (
             <>
               <Copy size={16} />
-              andresfdemoya@gmail.com
+              Let's talk!
             </>
           )}
         </button>
